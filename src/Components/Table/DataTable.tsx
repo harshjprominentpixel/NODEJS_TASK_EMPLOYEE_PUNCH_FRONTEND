@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { DataTableTypes } from "../common/types/types";
+import { DataTableTypes } from "../../common/types/types";
 
 const DataTable = ({ columns, rows }: DataTableTypes) => {
   return (
