@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import DataTable from "./Components/Table/DataTable";
 import { getAllEmployees } from "./service/DataProvider";
 import Loading from "./Components/Loading";
+import { Button } from "@mui/material";
+import moment from "moment";
 
 function App() {
   const [rows, setRows] = useState([]);
 
   const fetchEmployees = async () => {
-    const data = await getAllEmployees();
-    console.log(data);
+    const allEmployeeData = await getAllEmployees();
+    setRows(allEmployeeData);
   };
 
   useEffect(() => {
@@ -17,14 +19,6 @@ function App() {
   }, []);
 
   const columns: GridColDef[] = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 120,
-      headerClassName: "bg-blue-900 text-white font-mono",
-      align: "center",
-      headerAlign: "center",
-    },
     {
       field: "name",
       headerName: "Name",
@@ -38,6 +32,10 @@ function App() {
       headerClassName: "bg-blue-900 text-white font-mono",
       align: "center",
       headerAlign: "center",
+      renderCell: (params: GridRenderCellParams) => {
+        const dob = moment(params.value).format("DD-MM-YYYY");
+        return <>{dob}</>;
+      },
     },
     {
       field: "createdAt",
@@ -46,6 +44,28 @@ function App() {
       headerClassName: "bg-blue-900 text-white font-mono",
       align: "center",
       headerAlign: "center",
+      renderCell: (params: GridRenderCellParams) => {
+        const joiningDate = moment(params.value).format("LL");
+        return <>{joiningDate}</>;
+      },
+    },
+    {
+      field: "id",
+      headerName: "Get Punch Times",
+      width: 200,
+      headerClassName: "bg-blue-900 text-white font-mono",
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params: GridRenderCellParams) => {
+        return (
+          <button
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Get Punch Details
+          </button>
+        );
+      },
     },
   ];
 
