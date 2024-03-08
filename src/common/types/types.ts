@@ -10,4 +10,12 @@ export interface Employee {
   name: string;
   dob: string;
   createdAt: Date;
+  getPunchTimes?: PunchTimeDetails[];
+}
+
+export interface PunchTimeDetails {
+  id: string;
+  in_time_ist: Date;
+  emp_id: string;
+  createdAt: Date;
 }

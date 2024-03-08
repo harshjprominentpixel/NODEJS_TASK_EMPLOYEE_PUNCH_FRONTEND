@@ -5,9 +5,10 @@ import { getAllEmployees } from "../service/DataProvider";
 import Loading from "./Loading";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { Employee } from "../common/types/types";
 
 function AllEmployees() {
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState<Employee[]>([]);
   const navigate = useNavigate();
 
   const fetchEmployees = async () => {
