@@ -18,7 +18,7 @@ function EmployeePunchTimes() {
     fetchEmployeeDetails();
   }, []);
 
-  return <div>EmployeePunchTimes</div>;
+  return <div className="">EmployeePunchTimes</div>;
 }
 
 export default EmployeePunchTimes;

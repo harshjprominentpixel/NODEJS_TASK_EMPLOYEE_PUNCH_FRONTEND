@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import DataTable from "./Table/DataTable";
 import { getAllEmployees } from "../service/DataProvider";
-import Loading from "./Loading";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { Employee } from "../common/types/types";
@@ -76,7 +75,6 @@ function AllEmployees() {
 
   return (
     <>
-      <Loading />
       <div className="flex-col items-center justify-center p-24 bg-cyan-50 h-screen">
         <h1 className="text-center text-3xl mb-4 text-blue-900">
           All Employees
