@@ -16,6 +16,7 @@ export interface Employee {
 export interface PunchTimeDetails {
   id: string;
   in_time_ist: Date;
+  out_time_ist: Date;
   emp_id: string;
   createdAt: Date;
 }
