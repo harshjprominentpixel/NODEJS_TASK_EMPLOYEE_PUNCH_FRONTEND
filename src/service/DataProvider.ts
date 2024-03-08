@@ -19,3 +19,25 @@ export const getAllEmployees = async () => {
     throw error;
   }
 };
+
+export const getEmployeeWithPunchDetails = async (id: number) => {
+  try {
+    const bodyData = {
+      id: id,
+    };
+    const axiosClient = new AxiosClient();
+    const { GET_EMPLOYEE_WITH_PUNCH_DETAILS } = API_ROUTES;
+    const response = await trackPromise(
+      axiosClient.post(GET_EMPLOYEE_WITH_PUNCH_DETAILS, bodyData)
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error(error.response.data.reason);
+
+      throw error.response.data.reason;
+    }
+
+    throw error;
+  }
+};
