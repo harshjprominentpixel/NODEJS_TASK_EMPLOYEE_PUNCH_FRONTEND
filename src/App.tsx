@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "./Components/Table/DataTable";
 import { getAllEmployees } from "./service/DataProvider";
+import Loading from "./Components/Loading";
 
 function App() {
   const [rows, setRows] = useState([]);
@@ -49,12 +50,17 @@ function App() {
   ];
 
   return (
-    <div className="flex-col items-center justify-center p-24 bg-cyan-50 h-screen">
-      <h1 className="text-center text-3xl mb-4 text-blue-900">All Employees</h1>
-      <div className="flex items-center justify-center w-full">
-        <DataTable columns={columns} rows={rows} />
+    <>
+      <Loading />
+      <div className="flex-col items-center justify-center p-24 bg-cyan-50 h-screen">
+        <h1 className="text-center text-3xl mb-4 text-blue-900">
+          All Employees
+        </h1>
+        <div className="flex items-center justify-center w-full">
+          <DataTable columns={columns} rows={rows} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
