@@ -4,6 +4,13 @@ export interface AxiosRequestConfig {
   headers?: Record<string, string>;
   body?: unknown;
   params?: Record<string, string | null>;
+  responseType?:
+    | "arraybuffer"
+    | "blob"
+    | "document"
+    | "json"
+    | "text"
+    | "stream";
 }
 
 export class AxiosClient {

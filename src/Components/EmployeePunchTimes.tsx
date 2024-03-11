@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getEmployeeWithPunchDetails } from "../service/DataProvider";
+import {
+  getEmployeeWithPunchDetails,
+  postDownloadPDFPunchTiming,
+} from "../service/DataProvider";
 import { Employee, PunchTimeDetails } from "../common/types/types";
 import moment from "moment";
 import DataTable from "./Table/DataTable";
@@ -31,8 +34,10 @@ function EmployeePunchTimes() {
       headerAlign: "center",
       align: "center",
       renderCell: (param) => {
-        return <p>{moment(param.row.in_time_ist).format("dddd, Do MMMM YYYY")}</p>
-      }
+        return (
+          <p>{moment(param.row.in_time_ist).format("dddd, Do MMMM YYYY")}</p>
+        );
+      },
     },
     {
       field: "in_time_ist",
@@ -42,8 +47,8 @@ function EmployeePunchTimes() {
       headerAlign: "center",
       align: "center",
       renderCell: (param) => {
-        return <p>{moment(param.value).format("LT")}</p>
-      }
+        return <p>{moment(param.value).format("LT")}</p>;
+      },
     },
     {
       field: "out_time_ist",
@@ -53,8 +58,8 @@ function EmployeePunchTimes() {
       headerAlign: "center",
       align: "center",
       renderCell: (param) => {
-        return <p>{moment(param.value).format("LT")}</p>
-      }
+        return <p>{moment(param.value).format("LT")}</p>;
+      },
     },
     {
       field: "total_hours",
@@ -64,10 +69,21 @@ function EmployeePunchTimes() {
       headerAlign: "center",
       align: "center",
       renderCell: (param) => {
-        return <p>{moment(param.row.out_time_ist).diff(moment(param.row.in_time_ist),"hours")}</p>
-      }
+        return (
+          <p>
+            {moment(param.row.out_time_ist).diff(
+              moment(param.row.in_time_ist),
+              "hours"
+            )}
+          </p>
+        );
+      },
     },
   ];
+
+  const downloadPDFPunchTiming = async () => {
+    await postDownloadPDFPunchTiming(parseInt(employeeId!));
+  };
 
   return (
     <div className="flex-col items-center justify-center p-24 bg-cyan-50 h-screen">
@@ -102,6 +118,17 @@ function EmployeePunchTimes() {
               Punch Time Details
             </button>
           </li>
+          <li className="flex py-2 m-auto">
+            <button
+              type="button"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={() => {
+                downloadPDFPunchTiming();
+              }}
+            >
+              Download Punch Time Details
+            </button>
+          </li>
         </ul>
         <div id="defaultTabContent">
           {showData === 1 && (
@@ -122,10 +149,12 @@ function EmployeePunchTimes() {
             <div className="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800">
               <div className="flex items-center justify-center w-full">
                 {employeeData?.punch_in_times?.length! > 0 ? (
-                  <DataTable
-                    columns={columns}
-                    rows={employeeData?.punch_in_times}
-                  />
+                  <>
+                    <DataTable
+                      columns={columns}
+                      rows={employeeData?.punch_in_times}
+                    />
+                  </>
                 ) : (
                   <p>No Data Available</p>
                 )}
