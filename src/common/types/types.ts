@@ -10,7 +10,7 @@ export interface Employee {
   name: string;
   dob: string;
   createdAt: Date;
-  getPunchTimes?: PunchTimeDetails[];
+  punch_in_times?: PunchTimeDetails[];
 }
 
 export interface PunchTimeDetails {

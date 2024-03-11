@@ -12,10 +12,10 @@ function EmployeePunchTimes() {
   const [showData, setShowData] = useState<number>(1);
 
   const fetchEmployeeDetails = async () => {
-    const employeeData = await getEmployeeWithPunchDetails(
+    const employeeDataLocal = await getEmployeeWithPunchDetails(
       parseInt(employeeId!)
     );
-    setEmployeeData(employeeData);
+    setEmployeeData(employeeDataLocal);
   };
 
   useEffect(() => {
@@ -24,20 +24,48 @@ function EmployeePunchTimes() {
 
   const columns: GridColDef[] = [
     {
-      field: "in_time_ist",
-      headerName: "Punch In Time",
-      width: 350,
+      field: "Punch Date",
+      headerName: "Date",
+      width: 200,
       headerClassName: "bg-blue-900 text-white font-mono",
       headerAlign: "center",
       align: "center",
+      renderCell: (param) => {
+        return <p>{moment(param.row.in_time_ist).format("dddd, Do MMMM YYYY")}</p>
+      }
+    },
+    {
+      field: "in_time_ist",
+      headerName: "Punch In Time",
+      width: 250,
+      headerClassName: "bg-blue-900 text-white font-mono",
+      headerAlign: "center",
+      align: "center",
+      renderCell: (param) => {
+        return <p>{moment(param.value).format("LT")}</p>
+      }
     },
     {
       field: "out_time_ist",
       headerName: "Punch Out Time",
-      width: 350,
+      width: 250,
       headerClassName: "bg-blue-900 text-white font-mono",
       headerAlign: "center",
       align: "center",
+      renderCell: (param) => {
+        return <p>{moment(param.value).format("LT")}</p>
+      }
+    },
+    {
+      field: "total_hours",
+      headerName: "Total Hours Spend",
+      width: 200,
+      headerClassName: "bg-blue-900 text-white font-mono",
+      headerAlign: "center",
+      align: "center",
+      renderCell: (param) => {
+        return <p>{moment(param.row.out_time_ist).diff(moment(param.row.in_time_ist),"hours")}</p>
+      }
     },
   ];
 
@@ -93,10 +121,10 @@ function EmployeePunchTimes() {
           {showData === 2 && (
             <div className="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800">
               <div className="flex items-center justify-center w-full">
-                {employeeData?.getPunchTimes?.length! > 0 ? (
+                {employeeData?.punch_in_times?.length! > 0 ? (
                   <DataTable
                     columns={columns}
-                    rows={employeeData?.getPunchTimes}
+                    rows={employeeData?.punch_in_times}
                   />
                 ) : (
                   <p>No Data Available</p>
